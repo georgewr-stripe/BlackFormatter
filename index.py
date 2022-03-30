@@ -14,6 +14,8 @@ def format():
     data = request.get_json()
     code = data.get('code', None)
     if (code):
-        return Response(format_str(code, mode=FileMode()))
+        formatted = format_str(code, mode=FileMode())
+        print(formatted)
+        return Response(formatted)
     return Response(json.dumps({'error': 'POST param code missing'}),
                     status=400)
