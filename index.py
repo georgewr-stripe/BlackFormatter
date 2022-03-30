@@ -1,6 +1,6 @@
 import json
 from flask import Flask, Response, request
-from black import format_file_contents, FileMode
+from black import format_str, FileMode
 
 app = Flask(__name__)
 
@@ -14,6 +14,6 @@ def format():
     data = request.get_json()
     code = data.get('code', None)
     if (code):
-        return Response(format_file_contents(code, mode=FileMode(), fast=False))
+        return Response(format_str(code, mode=FileMode()))
     return Response(json.dumps({'error': 'POST param code missing'}),
                     status=400)
