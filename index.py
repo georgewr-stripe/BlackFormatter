@@ -16,6 +16,3 @@ def format():
   if (code):
       return format_response(format_str(code, mode=FileMode()))
   return format_response({'error': 'POST param code missing'})
-
-
-app.run(host='0.0.0.0')
