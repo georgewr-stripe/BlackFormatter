@@ -1,6 +1,7 @@
 import json
+import re
 from flask import Flask, Response, request
-from black import format_str, FileMode
+import black
 
 app = Flask(__name__)
 
@@ -11,10 +12,17 @@ def format_response(body, code=200):
 
 @app.route('/format', methods=['POST'])
 def format():
-    data = request.get_json()
-    code = data.get('code', None)
+    data = request.get_data()
+  
+    # Decode the bytes string
+    code = data.decode("utf-8")
     if (code):
-        formatted = format_str(code, mode=FileMode())
+        formatted = black.format_str(
+          code,
+          mode=black.Mode(
+            target_versions={black.TargetVersion.PY39}
+          )
+        )
         print(formatted)
         return Response(formatted)
     return Response(json.dumps({'error': 'POST param code missing'}),
